@@ -101,3 +101,92 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Create a functional trading terminal frontend for Averix crypto-finance project. Frontend-only React app with TradingView charts, 4 markets (BTC/USDT, ETH/USDT, EUR/USD, XAU/USD) + GER40 disabled. Internal AVRX currency (10k demo balance), strict 5% risk management, mandatory SL/TP, monochrome theme. No backend/external APIs."
+
+frontend:
+  - task: "TradingView Chart Integration"
+    implemented: false
+    working: "NA"
+    file: "src/components/TradingChart.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history: []
+
+  - task: "Trading Terminal Layout"
+    implemented: false
+    working: "NA"
+    file: "src/pages/TradingTerminal.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history: []
+
+  - task: "Order Ticket with Risk Management"
+    implemented: false
+    working: "NA"
+    file: "src/components/OrderTicket.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history: []
+
+  - task: "Position Management System"
+    implemented: false
+    working: "NA"
+    file: "src/components/PositionTabs.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history: []
+
+  - task: "AVRX Currency & P/L Engine"
+    implemented: false
+    working: "NA"
+    file: "src/hooks/useTradingEngine.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history: []
+
+  - task: "Symbol Selector & Market Data"
+    implemented: false
+    working: "NA"
+    file: "src/components/SymbolSelector.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history: []
+
+backend:
+  - task: "No Backend Required"
+    implemented: true
+    working: "NA"
+    file: "N/A"
+    stuck_count: 0
+    priority: "low"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Project is frontend-only as specified"
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 0
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Trading Terminal Layout"
+    - "TradingView Chart Integration"
+    - "Order Ticket with Risk Management"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "Starting implementation of Averix trading terminal. Phase 1: Setup and basic layout with TradingView integration."
