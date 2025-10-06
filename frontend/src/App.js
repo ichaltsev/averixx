@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Whitepaper from './pages/Whitepaper';
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
+import TradingTerminal from './pages/TradingTerminal';
 import NotFound from './pages/NotFound';
 import { Toaster } from './components/ui/toaster';
 import './App.css';
