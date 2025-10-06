@@ -15,9 +15,13 @@ const TradingChart = ({ symbol, className = "" }) => {
 
   useEffect(() => {
     if (containerRef.current && symbol) {
-      // Clean up previous widget
-      if (widgetRef.current) {
-        containerRef.current.innerHTML = '';
+      // Clean up previous widget safely
+      if (widgetRef.current && containerRef.current) {
+        try {
+          containerRef.current.innerHTML = '';
+        } catch (error) {
+          console.warn('Error cleaning up chart:', error);
+        }
       }
 
       // Create new TradingView widget
@@ -26,26 +30,32 @@ const TradingChart = ({ symbol, className = "" }) => {
       script.async = true;
       
       script.innerHTML = JSON.stringify({
-        "autosize": true,
-        "symbol": symbolMapping[symbol] || 'BINANCE:BTCUSDT',
-        "interval": "15",
-        "timezone": "Etc/UTC",
-        "theme": "dark",
-        "style": "1",
-        "locale": "en",
-        "enable_publishing": false,
-        "backgroundColor": "rgba(0, 0, 0, 1)",
-        "gridColor": "rgba(42, 46, 57, 0)",
-        "hide_top_toolbar": false,
-        "hide_legend": false,
-        "save_image": false,
-        "calendar": false,
-        "hide_volume": false,
-        "support_host": "https://www.tradingview.com"
+        autosize: true,
+        symbol: symbolMapping[symbol] || 'BINANCE:BTCUSDT',
+        interval: "15",
+        timezone: "Etc/UTC",
+        theme: "dark",
+        style: "1",
+        locale: "en",
+        enable_publishing: false,
+        backgroundColor: "rgba(0, 0, 0, 1)",
+        gridColor: "rgba(42, 46, 57, 0)",
+        hide_top_toolbar: false,
+        hide_legend: false,
+        save_image: false,
+        calendar: false,
+        hide_volume: false,
+        support_host: "https://www.tradingview.com"
       });
 
-      containerRef.current.appendChild(script);
-      widgetRef.current = script;
+      if (containerRef.current) {
+        try {
+          containerRef.current.appendChild(script);
+          widgetRef.current = script;
+        } catch (error) {
+          console.warn('Error appending chart script:', error);
+        }
+      }
     }
   }, [symbol]);
 
