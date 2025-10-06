@@ -19,6 +19,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/trade" element={<TradingTerminal />} />
             <Route path="/whitepaper" element={<Whitepaper />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
