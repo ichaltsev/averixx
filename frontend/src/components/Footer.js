@@ -77,24 +77,29 @@ const Footer = () => {
             <h3 className="text-white font-semibold mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
-                <button className="text-gray-300 hover:text-white transition-colors text-left">
+                <Link to="/terms" className="text-gray-300 hover:text-white transition-colors">
                   Terms of Service
-                </button>
+                </Link>
               </li>
               <li>
-                <button className="text-gray-300 hover:text-white transition-colors text-left">
+                <Link to="/privacy" className="text-gray-300 hover:text-white transition-colors">
                   Privacy Policy
-                </button>
+                </Link>
               </li>
               <li>
-                <button className="text-gray-300 hover:text-white transition-colors text-left">
+                <Link to="/disclaimer" className="text-gray-300 hover:text-white transition-colors">
                   Risk Disclosure
-                </button>
+                </Link>
               </li>
               <li>
-                <button className="text-gray-300 hover:text-white transition-colors text-left">
-                  Documentation
-                </button>
+                <a 
+                  href="/whitepaper.pdf" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-white transition-colors flex items-center"
+                >
+                  Documentation <ExternalLink className="h-3 w-3 ml-1" />
+                </a>
               </li>
             </ul>
           </div>
