@@ -116,7 +116,7 @@ const TradingTerminal = () => {
           {/* Chart */}
           <div className="flex-1 p-4">
             <div className="h-full border border-border rounded-lg overflow-hidden bg-black">
-              <TradingChart symbol={selectedSymbol} />
+              <SimpleChart symbol={selectedSymbol} />
             </div>
           </div>
         </div>
