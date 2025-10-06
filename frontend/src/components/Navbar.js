@@ -80,28 +80,32 @@ const Navbar = () => {
 
   const copyAddress = async () => {
     if (user?.address) {
-      await navigator.clipboard.writeText(user.address);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-      toast({
-        title: "Address Copied",
-        description: "Wallet address copied to clipboard.",
-      });
+      try {
+        await navigator.clipboard.writeText(user.address);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        toast({
+          title: "Address Copied",
+          description: "Wallet address copied to clipboard.",
+        });
+      } catch (err) {
+        console.error('Failed to copy address:', err);
+      }
     }
   };
 
   return (
     <>
-      <nav className="fixed top-0 w-full z-50 bg-[#0A0A0A]/80 backdrop-blur-md border-b border-white/10">
+      <nav className="fixed top-0 w-full z-50 bg-[#0A0A0A]/90 backdrop-blur-md border-b border-[#2A2A2A]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center space-x-2 group">
               <img 
                 src="https://customer-assets.emergentagent.com/job_b4f9138b-d805-4933-9217-0f17e5eccf05/artifacts/e37qpmnv_logo.png" 
                 alt="Averix" 
-                className="h-8 w-8 transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
+                className="h-8 w-8 transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
               />
-              <span className="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-gradient-to-r from-[#E0E0E0] to-[#B3B3B3] bg-clip-text text-transparent">
                 Averix
               </span>
             </Link>
@@ -113,11 +117,11 @@ const Navbar = () => {
                   key={item.name}
                   to={item.href}
                   onClick={() => handleNavClick(item.href, item.section)}
-                  className={`text-sm font-medium transition-all duration-200 hover:text-white ${
+                  className={`text-sm font-medium transition-all duration-200 hover:text-[#E0E0E0] ${
                     (location.pathname === item.href || 
                      (item.section && activeSection === item.section))
-                      ? 'text-white border-b border-white/50'
-                      : 'text-gray-300 hover:border-b hover:border-white/30'
+                      ? 'text-[#E0E0E0] border-b border-[#FFFFFF]/50'
+                      : 'text-[#B3B3B3] hover:border-b hover:border-[#FFFFFF]/30'
                   } pb-1`}
                 >
                   {item.name}
@@ -127,17 +131,20 @@ const Navbar = () => {
               {user ? (
                 <div className="flex items-center space-x-4">
                   <Link to="/dashboard">
-                    <Button variant="outline" size="sm" className="border-white/20 text-white hover:bg-white/10">
+                    <Button variant="outline" size="sm" className="border-[#2A2A2A] text-[#E0E0E0] hover:bg-[#1C1C1C] hover:border-[#3A3A3A]">
                       Dashboard
                     </Button>
                   </Link>
                   
-                  <div className="flex items-center space-x-2 bg-gradient-to-r from-white/5 to-white/10 rounded-full px-3 py-2 border border-white/10">
-                    <span className="text-lg">{user.walletIcon}</span>
-                    <span className="text-sm text-white font-mono">{user.truncatedAddress}</span>
+                  <div className="flex items-center space-x-2 bg-gradient-to-r from-[#1C1C1C]/80 to-[#161616]/60 rounded-full px-3 py-2 border border-[#2A2A2A]">
+                    <div 
+                      className="w-5 h-5 wallet-icon"
+                      dangerouslySetInnerHTML={{ __html: user.walletIcon }}
+                    />
+                    <span className="text-sm text-[#E0E0E0] font-mono">{user.truncatedAddress}</span>
                     <button
                       onClick={copyAddress}
-                      className="text-gray-400 hover:text-white transition-colors"
+                      className="text-[#9A9A9A] hover:text-[#E0E0E0] transition-colors"
                     >
                       {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
                     </button>
@@ -147,7 +154,7 @@ const Navbar = () => {
                     onClick={handleDisconnect}
                     variant="ghost" 
                     size="sm" 
-                    className="text-gray-300 hover:text-white hover:bg-white/10"
+                    className="text-[#B3B3B3] hover:text-[#E0E0E0] hover:bg-[#1C1C1C]"
                   >
                     <LogOut className="h-4 w-4" />
                   </Button>
@@ -155,7 +162,7 @@ const Navbar = () => {
               ) : (
                 <Button 
                   onClick={() => setIsWalletModalOpen(true)}
-                  className="bg-white text-black hover:bg-gray-200 transition-all duration-200"
+                  className="bg-[#E0E0E0] text-[#0A0A0A] hover:bg-[#FFFFFF] transition-all duration-200 shadow-[0_0_20px_rgba(224,224,224,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]"
                 >
                   <Wallet className="h-4 w-4 mr-2" />
                   Connect Wallet
@@ -167,7 +174,7 @@ const Navbar = () => {
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-gray-300 hover:text-white transition-colors"
+                className="text-[#B3B3B3] hover:text-[#E0E0E0] transition-colors"
               >
                 {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
@@ -177,7 +184,7 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden bg-[#161616]/95 backdrop-blur-md border-t border-white/10">
+          <div className="md:hidden bg-[#161616]/95 backdrop-blur-md border-t border-[#2A2A2A]">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
                 <Link
@@ -187,32 +194,35 @@ const Navbar = () => {
                   className={`block px-3 py-2 text-base font-medium transition-colors ${
                     (location.pathname === item.href || 
                      (item.section && activeSection === item.section))
-                      ? 'text-white bg-white/10'
-                      : 'text-gray-300 hover:text-white hover:bg-white/5'
+                      ? 'text-[#E0E0E0] bg-[#1C1C1C]'
+                      : 'text-[#B3B3B3] hover:text-[#E0E0E0] hover:bg-[#1C1C1C]/50'
                   } rounded-md`}
                 >
                   {item.name}
                 </Link>
               ))}
               
-              <div className="pt-2 border-t border-white/10 mt-2">
+              <div className="pt-2 border-t border-[#2A2A2A] mt-2">
                 {user ? (
                   <div className="space-y-2">
                     <div className="px-3 py-2">
-                      <div className="flex items-center space-x-2 text-white text-sm">
-                        <span className="text-lg">{user.walletIcon}</span>
+                      <div className="flex items-center space-x-2 text-[#E0E0E0] text-sm">
+                        <div 
+                          className="w-4 h-4 wallet-icon"
+                          dangerouslySetInnerHTML={{ __html: user.walletIcon }}
+                        />
                         <span className="font-mono">{user.truncatedAddress}</span>
                       </div>
                     </div>
                     <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                      <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
+                      <Button variant="outline" className="w-full border-[#2A2A2A] text-[#E0E0E0] hover:bg-[#1C1C1C]">
                         Dashboard
                       </Button>
                     </Link>
                     <Button 
                       onClick={handleDisconnect}
                       variant="ghost" 
-                      className="w-full text-gray-300 hover:text-white hover:bg-white/10"
+                      className="w-full text-[#B3B3B3] hover:text-[#E0E0E0] hover:bg-[#1C1C1C]"
                     >
                       <LogOut className="h-4 w-4 mr-2" />
                       Disconnect
@@ -224,7 +234,7 @@ const Navbar = () => {
                       setIsWalletModalOpen(true);
                       setIsOpen(false);
                     }}
-                    className="w-full bg-white text-black hover:bg-gray-200"
+                    className="w-full bg-[#E0E0E0] text-[#0A0A0A] hover:bg-[#FFFFFF]"
                   >
                     <Wallet className="h-4 w-4 mr-2" />
                     Connect Wallet
