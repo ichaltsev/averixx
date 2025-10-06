@@ -5,10 +5,11 @@ import { mockDashboardData } from '../mock/data';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
-import { ArrowLeft, TrendingUp, TrendingDown, Award, Users, Lock, Activity } from 'lucide-react';
+import { ArrowLeft, TrendingUp, TrendingDown, Award, Users, Lock, Activity, Wallet, Copy, ExternalLink } from 'lucide-react';
+import { toast } from '../hooks/use-toast';
 
 const Dashboard = () => {
-  const { user, loading } = useAuth();
+  const { user, loading, truncateAddress } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +43,23 @@ const Dashboard = () => {
     }
   };
 
+  const copyAddress = async () => {
+    if (user?.address) {
+      await navigator.clipboard.writeText(user.address);
+      toast({
+        title: "Address Copied",
+        description: "Wallet address copied to clipboard.",
+      });
+    }
+  };
+
+  const openExplorer = () => {
+    const explorerUrl = user.network === 'sui' 
+      ? `https://explorer.sui.io/address/${user.address}`
+      : `https://bscscan.com/address/${user.address}`;
+    window.open(explorerUrl, '_blank');
+  };
+
   return (
     <div className="pt-16 min-h-screen bg-[#0A0A0A]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -52,15 +70,36 @@ const Dashboard = () => {
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Home
             </Link>
-            <h1 className="text-3xl font-bold text-white">Welcome back, {user.username}</h1>
-            <div className="flex items-center space-x-4 mt-2">
+            <h1 className="text-3xl font-bold text-white mb-2">Welcome back, Trader</h1>
+            <div className="flex items-center space-x-4">
               <Badge className={`${getLevelColor(user.level || 'Bronze')}`}>
                 {user.level || 'Bronze'} Trader
               </Badge>
-              <span className="text-gray-400 text-sm">
-                Member since {new Date(user.joinedAt || Date.now()).toLocaleDateString()}
-              </span>
+              <div className="flex items-center space-x-2 bg-gradient-to-r from-white/5 to-white/10 rounded-lg px-3 py-2 border border-white/10">
+                <span className="text-lg">{user.walletIcon}</span>
+                <span className="text-white font-mono text-sm">{user.truncatedAddress}</span>
+                <button
+                  onClick={copyAddress}
+                  className="text-gray-400 hover:text-white transition-colors"
+                  title="Copy full address"
+                >
+                  <Copy className="h-3 w-3" />
+                </button>
+                <button
+                  onClick={openExplorer}
+                  className="text-gray-400 hover:text-white transition-colors"
+                  title="View on explorer"
+                >
+                  <ExternalLink className="h-3 w-3" />
+                </button>
+              </div>
+              <Badge variant="outline" className="border-white/20 text-gray-300">
+                {user.network?.toUpperCase()} Network
+              </Badge>
             </div>
+            <p className="text-gray-400 text-sm mt-2">
+              Connected since {new Date(user.connectedAt || Date.now()).toLocaleDateString()}
+            </p>
           </div>
         </div>
 
@@ -176,6 +215,50 @@ const Dashboard = () => {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            <Card className="bg-gradient-to-br from-white/5 to-white/10 border-white/10">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center">
+                  <Wallet className="h-5 w-5 mr-2" />
+                  Wallet Info
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <span className="text-2xl">{user.walletIcon}</span>
+                    <div>
+                      <div className="text-white font-semibold">{user.walletName}</div>
+                      <div className="text-xs text-gray-400">{user.network?.toUpperCase()} Network</div>
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-r from-white/5 to-white/10 rounded-lg p-3 border border-white/10">
+                    <div className="text-xs text-gray-400 mb-1">Wallet Address</div>
+                    <div className="font-mono text-sm text-white break-all">{user.address}</div>
+                  </div>
+                  <div className="flex space-x-2">
+                    <Button
+                      onClick={copyAddress}
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 border-white/20 text-white hover:bg-white/10"
+                    >
+                      <Copy className="h-3 w-3 mr-1" />
+                      Copy
+                    </Button>
+                    <Button
+                      onClick={openExplorer}
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 border-white/20 text-white hover:bg-white/10"
+                    >
+                      <ExternalLink className="h-3 w-3 mr-1" />
+                      Explorer
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             <Card className="bg-gradient-to-br from-white/5 to-white/10 border-white/10">
               <CardHeader>
                 <CardTitle className="text-white flex items-center">
