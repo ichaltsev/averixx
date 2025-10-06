@@ -17,6 +17,7 @@ const Navbar = () => {
 
   const navItems = [
     { name: 'Home', href: '/', section: 'hero' },
+    { name: 'Trade', href: '/trade', section: 'trade' },
     { name: 'About', href: '/#about', section: 'about' },
     { name: 'Tokenomics', href: '/#tokenomics', section: 'tokenomics' },
     { name: 'Ecosystem', href: '/#ecosystem', section: 'ecosystem' },
