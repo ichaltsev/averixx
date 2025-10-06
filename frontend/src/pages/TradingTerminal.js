@@ -12,7 +12,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '../components/ui/alert-dialog';
-import TradingChart from '../components/TradingChart';
+import SimpleChart from '../components/SimpleChart';
 import SymbolSelector from '../components/SymbolSelector';
 import OrderTicket from '../components/OrderTicket';
 import PositionTabs from '../components/PositionTabs';
