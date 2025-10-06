@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 
 const TradingChart = ({ symbol, className = "" }) => {
-  const containerRef = useRef();
-  const widgetRef = useRef();
+  const containerRef = useRef(null);
+  const widgetRef = useRef(null);
 
   // Symbol mapping for TradingView
   const symbolMapping = {
