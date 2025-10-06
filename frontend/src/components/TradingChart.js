@@ -59,6 +59,19 @@ const TradingChart = ({ symbol, className = "" }) => {
     }
   }, [symbol]);
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (containerRef.current && widgetRef.current) {
+        try {
+          containerRef.current.innerHTML = '';
+        } catch (error) {
+          console.warn('Error cleaning up chart on unmount:', error);
+        }
+      }
+    };
+  }, []);
+
   return (
     <div className={`tradingview-widget-container ${className}`} style={{ height: '100%', width: '100%' }}>
       <div 
