@@ -149,17 +149,6 @@ const TradingTerminal = () => {
         </div>
       </div>
 
-      {/* Mobile Layout Adjustments */}
-      <style jsx>{`
-        @media (max-width: 1024px) {
-          .lg\\:flex-row {
-            flex-direction: column;
-          }
-          .lg\\:w-96 {
-            width: 100%;
-          }
-        }
-      `}</style>
     </div>
   );
 };
