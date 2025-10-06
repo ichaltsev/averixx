@@ -89,21 +89,42 @@ const TradingChart = ({ symbol, className = "" }) => {
   }, []);
 
   return (
-    <div className={`tradingview-widget-container ${className}`} style={{ height: '100%', width: '100%' }}>
+    <div className={`tradingview-widget-container relative ${className}`} style={{ height: '100%', width: '100%' }}>
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black">
+          <div className="text-white text-center">
+            <div className="animate-pulse mb-2">Loading Chart...</div>
+            <div className="text-sm text-gray-400">{symbol || 'BTC/USDT'}</div>
+          </div>
+        </div>
+      )}
+      
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black">
+          <div className="text-red-400 text-center">
+            <div className="mb-2">Chart Error</div>
+            <div className="text-sm text-gray-400">{error}</div>
+          </div>
+        </div>
+      )}
+      
       <div 
         ref={containerRef}
         className="tradingview-widget"
         style={{ height: '100%', width: '100%' }}
       />
-      <div className="tradingview-widget-copyright">
-        <a 
-          href={`https://www.tradingview.com/symbols/${symbolMapping[symbol] || 'BINANCE:BTCUSDT'}/`}
-          rel="noopener noreferrer" 
-          target="_blank"
-        >
-          <span className="blue-text">{symbol || 'BTC/USDT'} Chart</span>
-        </a>
-      </div>
+      
+      {!error && (
+        <div className="tradingview-widget-copyright">
+          <a 
+            href={`https://www.tradingview.com/symbols/${symbolMapping[symbol] || 'BINANCE:BTCUSDT'}/`}
+            rel="noopener noreferrer" 
+            target="_blank"
+          >
+            <span className="blue-text">{symbol || 'BTC/USDT'} Chart</span>
+          </a>
+        </div>
+      )}
     </div>
   );
 };
